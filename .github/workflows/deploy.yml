@@ -1,0 +1,37 @@
+name: Déploiement automatique
+
+# Se déclenche à chaque push sur main
+on:
+  push:
+    branches: [ main ]
+
+# Le GITHUB_TOKEN doit pouvoir écrire dans la branche gh-pages
+permissions:
+  contents: write
+
+jobs:
+  deployer:
+    runs-on: ubuntu-latest
+    steps:
+
+      # Étape 1 : récupérer le code
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Étape 2 : valider le HTML
+      - name: Vérifier index.html
+        run: |
+          if [ -f index.html ]; then
+            echo "✅ index.html trouvé"
+            wc -l index.html
+          else
+            echo "❌ index.html manquant !" && exit 1
+          fi
+
+      # Étape 3 : déployer sur GitHub Pages
+      - name: Déployer
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .
+          exclude_assets: '.github'
