@@ -1,7 +1,5 @@
 # TP Cloud : Docker & GitHub Pages
 
-**Étudiant :** Yassine Benamara · **Niveau :** ING4 · **Enseignant :** Nader Belhadj
-
 **Site en ligne (GitHub Pages) :** https://yba-sudo.github.io/tp-cloud-docker/
 
 ## Contenu du dépôt
