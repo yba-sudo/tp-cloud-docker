@@ -1,4 +1,4 @@
-# TP Cloud — Docker & GitHub Pages
+# TP Cloud : Docker & GitHub Pages
 
 **Étudiant :** Yassine Benamara · **Niveau :** ING4 · **Enseignant :** Nader Belhadj
 
@@ -8,10 +8,10 @@
 
 | Fichier | Partie du TP |
 |---|---|
-| `monapp/index.html`, `monapp/Dockerfile` | Partie 2 — image Docker personnalisée (`monapp:v1`, `monapp:v2`) |
-| `compose-tp/docker-compose.yml`, `compose-tp/site/` | Partie 3 — Nginx + PostgreSQL + Redis avec Docker Compose |
-| `index.html` | Partie 4 — page publiée sur GitHub Pages |
-| `.github/workflows/deploy.yml` | Partie 5 — pipeline CI/CD GitHub Actions |
+| `monapp/index.html`, `monapp/Dockerfile` | Partie 2 : image Docker personnalisée (`monapp:v1`, `monapp:v2`) |
+| `compose-tp/docker-compose.yml`, `compose-tp/site/` | Partie 3 : Nginx + PostgreSQL + Redis avec Docker Compose |
+| `index.html` | Partie 4 : page publiée sur GitHub Pages |
+| `.github/workflows/deploy.yml` | Partie 5 : pipeline CI/CD GitHub Actions |
 
 ## Commandes principales
 
@@ -47,19 +47,19 @@ puisse pousser dans cette branche.
 
 ## Réponses aux questions du TP
 
-**Question 1 — Différence entre une image et un conteneur Docker**
+**Question 1 : Différence entre une image et un conteneur Docker**
 
 Une image est un modèle figé, en lecture seule : elle contient le système de fichiers, les dépendances et la commande à lancer (la recette de cuisine). Un conteneur est une instance en cours d'exécution de cette image, avec son propre processus, son réseau et une couche inscriptible (le plat cuisiné). À partir d'une seule image (nginx) on peut lancer autant de conteneurs que l'on veut ; supprimer un conteneur ne supprime pas l'image.
 
-**Question 2 — Commandes utilisées pour passer en v2**
+**Question 2 : Commandes utilisées pour passer en v2**
 
 Après avoir modifié le titre dans index.html : docker build -t monapp:v2 . puis docker stop app, docker rm app, et enfin docker run -d -p 8080:80 --name app monapp:v2. Il faut arrêter et supprimer l'ancien conteneur car le nom « app » et le port 8080 sont déjà pris ; l'image v1 reste disponible, ce qui permet de revenir en arrière.
 
-**Question 3 — Le volume pgdata**
+**Question 3 : Le volume pgdata**
 
 pgdata est un volume nommé géré par Docker, monté sur /var/lib/postgresql/data, le répertoire où PostgreSQL écrit ses données. Il vit en dehors du conteneur : docker compose down supprime les conteneurs mais pas le volume. Sans lui, les données seraient écrites dans la couche inscriptible du conteneur et disparaîtraient à chaque suppression ou recréation du conteneur (mise à jour d'image, down/up). Je l'ai vérifié : une table créée avant docker compose down est toujours là après docker compose up -d.
 
-**Question 4 — Le GITHUB_TOKEN**
+**Question 4 : Le GITHUB_TOKEN**
 
 C'est un jeton d'accès temporaire que GitHub crée automatiquement au début de chaque exécution du workflow et qui expire à la fin du job. Il est limité au dépôt et aux permissions déclarées (ici contents: write, pour pousser dans la branche gh-pages). On n'écrit jamais un mot de passe dans le fichier YAML parce que ce fichier est versionné dans un dépôt public : tout le monde pourrait le lire, il resterait dans l'historique Git même après suppression, et il faudrait le révoquer. Les secrets sont stockés chiffrés par GitHub, injectés à l'exécution et masqués dans les logs.
 
